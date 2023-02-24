@@ -24,6 +24,7 @@ return new class extends Migration
             
             $table->longText('images')->nullable();
             $table->longText('social_media')->nullable();
+            
             $table->rememberToken();
             $table->timestamps();
         });
