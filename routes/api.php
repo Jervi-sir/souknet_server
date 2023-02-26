@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\API\v1\AuthController;
+use App\Http\Controllers\API\v1\Auth\AdminAuthController;
+use App\Http\Controllers\API\v1\Auth\BusinessAuthController;
+use App\Http\Controllers\API\v1\Auth\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -12,25 +14,29 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| User
+| Business
 |--------------------------------------------------------------------------
 */
+Route::middleware('guest:sanctum')->group( function () {
+    Route::post('/business/register', [BusinessAuthController::class, 'registerBusiness']);     //[x]
+    Route::post('/business/login', [BusinessAuthController::class, 'loginBusiness']);           //[x]
+});
 
-Route::post('/user/register', [AuthController::class, 'registerUser']);
-Route::post('/user/login', [AuthController::class, 'loginUser']);
-Route::middleware(['auth:sanctum', 'type.user'])->group( function () {
-    Route::post('/user/logout', [AuthController::class, 'logoutUser']);
+Route::middleware(['auth:sanctum', 'type.business'])->group( function () {
+    Route::post('/business/logout', [BusinessAuthController::class, 'logoutBusiness']);     //[x]
 });
 
 /*
 |--------------------------------------------------------------------------
-| Business
+| User
 |--------------------------------------------------------------------------
 */
-Route::post('/business/register', [AuthController::class, 'registerBusiness']);
-Route::post('/business/login', [AuthController::class, 'loginBusiness']);
-Route::middleware(['auth:sanctum', 'type.business'])->group( function () {
-    Route::post('/business/logout', [AuthController::class, 'logoutBusiness']);
+Route::middleware('guest:sanctum')->group( function () {
+    Route::post('/user/register', [UserAuthController::class, 'registerUser']);     //[]
+    Route::post('/user/login', [UserAuthController::class, 'loginUser']);           //[]
+});
+Route::middleware(['auth:sanctum', 'type.user'])->group( function () {
+    Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);     //[]
 });
 
 /*
@@ -38,9 +44,9 @@ Route::middleware(['auth:sanctum', 'type.business'])->group( function () {
 | Admin
 |--------------------------------------------------------------------------
 */
-Route::post('/admin/register', [AuthController::class, 'registerAdmin']);
-Route::post('/admin/login', [AuthController::class, 'loginAdmin']);
+Route::post('/admin/register', [AdminAuthController::class, 'registerAdmin']);  //[]
+Route::post('/admin/login', [AdminAuthController::class, 'loginAdmin']);        //[]
 Route::middleware(['auth:sanctum', 'type.admin'])->group( function () {
-    Route::post('/admin/logout', [AuthController::class, 'logoutAdmin']);
+    Route::post('/admin/logout', [AdminAuthController::class, 'logoutAdmin']);  //[]
 });
 
