@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->tinyText('name');
             $table->tinyText('email')->unique();
@@ -19,13 +19,14 @@ return new class extends Migration
             $table->string('password');
             $table->tinyText('phone_number')->nullable();
             $table->string('social_media_list')->nullable();
-            $table->string('bio')->nullable();
+            $table->string('description_ar')->nullable();
+            $table->string('description_fr')->nullable();
+            $table->string('description_en')->nullable();
             $table->tinytext('location')->nullable();
-            $table->tinyInteger('gender')->nullable();
-            $table->date('birthday')->nullable();
             $table->tinyInteger('wilaya_number')->nullable();
+            $table->tinyInteger('is_verified')->nullable();
+            $table->foreignId('company_privilege_id')->constrained();
 
-            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -35,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('companies');
     }
 };

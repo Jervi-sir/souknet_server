@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\API\v1\Auth\AdminAuthController;
-use App\Http\Controllers\API\v1\Auth\BusinessAuthController;
-use App\Http\Controllers\API\v1\Auth\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\v1\Auth\UserAuthController;
+use App\Http\Controllers\API\v1\Auth\AdminAuthController;
+use App\Http\Controllers\API\v1\Auth\BusinessAuthController;
 
 /*
 |--------------------------------------------------------------------------

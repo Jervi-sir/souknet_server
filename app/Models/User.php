@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Order;
+use App\Models\Company;
 use App\Models\Product;
+use App\Models\UserImage;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,9 +24,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'name', 'email', 'password',
+        'phone_number', 'social_media_list',
+        'bio', 'location', 'gender', 'birthday',
+        'wilaya_number'
     ];
 
     /**
@@ -46,14 +49,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function products(): BelongsToMany
+    public function getProducts(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'orders', 'user_id', 'product_id');
     }
 
-    public function order(): HasMany
+    public function getOrders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function getImages() :HasMany
+    {
+        return $this->hasMany(UserImage::class);
+    }
+
+    public function getFollowing(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class, 'user_company', 'user_id', 'company_id');
     }
 
 }
