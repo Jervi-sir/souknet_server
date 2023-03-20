@@ -15,7 +15,7 @@ class BusinessMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->tokenCan('role:business')) {
+        if (auth()->user()->tokenCan('role:company')) {
             return $next($request);
         }
 

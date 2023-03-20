@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\v1\Auth;
 use App\Models\Business;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\CompanyPrivilege;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -14,10 +16,10 @@ class BusinessAuthController extends Controller
 {
 /*
     |--------------------------------------------------------------------------
-    | Business Auth :: loginBusiness(), registerBusiness(), logoutBusiness()
+    | Company Auth :: loginCompany(), registerCompany(), logoutCompany()
     |--------------------------------------------------------------------------
     */
-    public function loginBusiness(Request $request) {
+    public function loginCompany(Request $request) {
         try {
             $validateUser = Validator::make($request->all(), 
             [
@@ -33,7 +35,7 @@ class BusinessAuthController extends Controller
                 ], 401);
             }
 
-            $business = Business::where('email', $request->email)->first();
+            $business = Company::where('email', $request->email)->first();
 
             if (!$business || !Hash::check($request->password, $business->password)) {
                 throw ValidationException::withMessages([
@@ -44,7 +46,7 @@ class BusinessAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $business->createToken($request->header('User-Agent'), ['role:business'])->plainTextToken
+                'token' => $business->createToken($request->header('User-Agent'), ['role:company'])->plainTextToken
             ], 200);
 
         } catch (\Throwable $th) {
@@ -56,7 +58,7 @@ class BusinessAuthController extends Controller
 
     }
 
-    public function registerBusiness(Request $request)  {
+    public function registerCompany(Request $request)  {
         try {
             //Validated
             $validateUser = Validator::make($request->all(), 
@@ -74,16 +76,17 @@ class BusinessAuthController extends Controller
                 ], 401);
             }
 
-            $business = Business::create([
+            $business = Company::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password)
+                'password' => Hash::make($request->password),
+                'company_privilege_id' => CompanyPrivilege::first()->id,
             ]);
 
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'token' => $business->createToken($request->header('User-Agent'), ['role:business'])->plainTextToken
+                'token' => $business->createToken($request->header('User-Agent'), ['role:company'])->plainTextToken
             ], 200);
 
         } catch (\Throwable $th) {
@@ -94,7 +97,7 @@ class BusinessAuthController extends Controller
         }
     }
 
-    public function logoutBusiness(Request $request) {
+    public function logoutCompany(Request $request) {
         //$request->user()->tokens()->delete();
         auth()->user()->currentAccessToken()->delete();
 

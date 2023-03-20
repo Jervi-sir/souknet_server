@@ -9,26 +9,12 @@ use Illuminate\Support\Facades\Validator;
 class BusinessController extends Controller
 {
   
-    public function index(Request $request)
+    public function BusinessController(Request $request)
     {
         try {
-            $validateUser = Validator::make($request->all(), [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-          
+            
 
             return response()->json([
-                'status' => true,
                 'message' => 'User Logged In Successfully',
             ], 200);
 

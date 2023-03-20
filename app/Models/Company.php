@@ -7,18 +7,21 @@ use App\Models\Product;
 use App\Models\Service;
 use App\Models\CompanyImage;
 use App\Models\CompanyPrivilege;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Company extends Model
+class Company extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'name', 'password', 'phone_number', 'social_media_list', 
+        'name', 'email', 'password', 'phone_number', 'social_media_list', 
         'description_ar', 'description_fr', 'description_en',
         'location', 'wilaya_number',
         'company_privilege_id'

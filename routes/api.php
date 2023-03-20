@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\v1\Auth\UserAuthController;
 use App\Http\Controllers\API\v1\Auth\AdminAuthController;
 use App\Http\Controllers\API\v1\Auth\BusinessAuthController;
+use App\Http\Controllers\API\v1\BusinessController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +19,14 @@ use App\Http\Controllers\API\v1\Auth\BusinessAuthController;
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest:sanctum')->group( function () {
-    Route::post('/business/register', [BusinessAuthController::class, 'registerBusiness']);     //[x]
-    Route::post('/business/login', [BusinessAuthController::class, 'loginBusiness']);           //[x]
+    Route::post('/company/register', [BusinessAuthController::class, 'registerCompany']);     //api[done]
+    Route::post('/company/login', [BusinessAuthController::class, 'loginCompany']);           //api[done] 
 });
 
-Route::middleware(['auth:sanctum', 'type.business'])->group( function () {
-    Route::post('/business/logout', [BusinessAuthController::class, 'logoutBusiness']);     //[x]
+Route::middleware(['auth:sanctum', 'type.company'])->group( function () {
+    Route::post('/company/logout', [BusinessAuthController::class, 'logoutCompany']);         //api[done]
+    Route::post('/company/post-product', [BusinessController::class, 'postProduct']);
+    Route::post('/company/post-service', [BusinessController::class, 'postService']);
 });
 
 /*
@@ -32,11 +35,11 @@ Route::middleware(['auth:sanctum', 'type.business'])->group( function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest:sanctum')->group( function () {
-    Route::post('/user/register', [UserAuthController::class, 'registerUser']);     //[]
-    Route::post('/user/login', [UserAuthController::class, 'loginUser']);           //[]
+    Route::post('/user/register', [UserAuthController::class, 'registerUser']);                 //api[done] 
+    Route::post('/user/login', [UserAuthController::class, 'loginUser']);                       //api[done]    
 });
 Route::middleware(['auth:sanctum', 'type.user'])->group( function () {
-    Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);     //[]
+    Route::post('/user/logout', [UserAuthController::class, 'logoutUser']);                     //api[done]
 });
 
 /*

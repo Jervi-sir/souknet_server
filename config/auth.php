@@ -43,9 +43,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'businesses' => [
+        'companies' => [
             'driver' => 'sanctum',
-            'provider' => 'businesses',
+            'provider' => 'companies',
         ],
         'admins' => [
             'driver' => 'sanctum',
@@ -76,7 +76,7 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'businesses' => [
+        'companies' => [
             'driver' => 'eloquent',
             'model' => Business::class,
         ],
@@ -118,8 +118,8 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'businesses' => [
-            'provider' => 'businesses',
+        'companies' => [
+            'provider' => 'companies',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
