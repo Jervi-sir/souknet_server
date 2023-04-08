@@ -16,15 +16,18 @@ class UserAuthController extends Controller
     | User Auth :: loginUser(), registerUser(), logoutUser()
     |--------------------------------------------------------------------------
     */
-    public function loginUser(Request $request) {
+    public function loginUser(Request $request)
+    {
         try {
-            $validateUser = Validator::make($request->all(), 
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -32,7 +35,7 @@ class UserAuthController extends Controller
                 ], 401);
             }
 
-            if(!Auth::attempt($request->only(['email', 'password']))){
+            if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
                     'status' => false,
                     'message' => 'Email & Password does not match with our record.',
@@ -44,29 +47,30 @@ class UserAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken($request->header('User-Agent'), ['role:user'])->plainTextToken
+                'token' => $user->createToken('jervi', ['role:user'])->plainTextToken
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
             ], 500);
         }
-
     }
 
-    public function registerUser(Request $request) {
+    public function registerUser(Request $request)
+    {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(), 
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required',
+                    //'email' => 'required|email|unique:users,email',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -83,8 +87,9 @@ class UserAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'token' => $user->createToken($request->header('User-Agent'), ['role:user'])->plainTextToken
+                'token' => $user->createToken('jervi', ['role:user'])->plainTextToken
             ], 200);
+            //$request->header('User-Agent')
 
         } catch (\Throwable $th) {
             return response()->json([
@@ -94,12 +99,13 @@ class UserAuthController extends Controller
         }
     }
 
-    public function logoutUser(Request $request) {
+    public function logoutUser(Request $request)
+    {
         //$request->user()->tokens()->delete();
         auth()->user()->currentAccessToken()->delete();
 
         return response()->json([
-        'message' => 'Successfully logged out'
+            'message' => 'Successfully logged out'
         ]);
     }
 }

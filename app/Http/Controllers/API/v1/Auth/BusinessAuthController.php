@@ -14,20 +14,23 @@ use Illuminate\Validation\ValidationException;
 
 class BusinessAuthController extends Controller
 {
-/*
+    /*
     |--------------------------------------------------------------------------
     | Company Auth :: loginCompany(), registerCompany(), logoutCompany()
     |--------------------------------------------------------------------------
     */
-    public function loginCompany(Request $request) {
+    public function loginCompany(Request $request)
+    {
         try {
-            $validateUser = Validator::make($request->all(), 
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -46,29 +49,30 @@ class BusinessAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $business->createToken($request->header('User-Agent'), ['role:company'])->plainTextToken
+                'token' => $business->createToken('jervi', ['role:company'])->plainTextToken
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
             ], 500);
         }
-
     }
 
-    public function registerCompany(Request $request)  {
+    public function registerCompany(Request $request)
+    {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(), 
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required',
+                    'email' => 'required|email|unique:companies,email',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -86,9 +90,8 @@ class BusinessAuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Created Successfully',
-                'token' => $business->createToken($request->header('User-Agent'), ['role:company'])->plainTextToken
+                'token' => $business->createToken('jervi', ['role:company'])->plainTextToken
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -97,12 +100,13 @@ class BusinessAuthController extends Controller
         }
     }
 
-    public function logoutCompany(Request $request) {
+    public function logoutCompany(Request $request)
+    {
         //$request->user()->tokens()->delete();
         auth()->user()->currentAccessToken()->delete();
 
         return response()->json([
-        'message' => 'Successfully logged out'
+            'message' => 'Successfully logged out'
         ]);
     }
 }
