@@ -28,8 +28,8 @@ Route::prefix('company')->middleware('guest:sanctum')->group(function () {
 
 Route::prefix('company')->middleware(['auth:sanctum', 'type.company'])->group(function () {
     Route::post('/logout', [BusinessAuthController::class, 'logoutCompany']);         //api[done]
-    Route::post('/post-product', [BusinessController::class, 'postProduct']);         //api[done]             
-    Route::post('/post-service', [BusinessController::class, 'postService']);         //api[done]
+    Route::post('/add-product', [BusinessController::class, 'postProduct']);         //api[done]             
+    Route::post('/add-service', [BusinessController::class, 'postService']);         //api[done]
     Route::get('/getAllProducts', [BusinessController::class, 'getAllProducts']);
     Route::get('/getAllServices', [BusinessController::class, 'getAllServices']);
 });

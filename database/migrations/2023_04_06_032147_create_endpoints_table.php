@@ -13,15 +13,19 @@ return new class extends Migration
     {
         Schema::create('endpoints', function (Blueprint $table) {
             $table->id();
-            $table->string('URL');
-            $table->string('Method');
-            $table->string('parameters')->nullable();
-            $table->boolean('requireAuth');
+            $table->tinyInteger('is_done')->default(0);
+            $table->string('section');
+            $table->string('endpoint');
+            $table->string('method');
+            $table->string('header')->nullable();
+            $table->string('body')->nullable();
+            $table->string('description')->nullable();
             $table->string('response')->nullable();
+            $table->tinyInteger('requireAuth')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      */

@@ -9,15 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
+    // This table will store information about which coupons have been applied to an order.
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('order_counpons', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent_id');
-            $table->foreign('parent_id')->references('id')->on('categories');
-            $table->string('description')->nullable();
-            $table->string('name');
-
+            $table->foreignId('order_id')->constrained();
+            $table->foreignId('coupon_id')->constrained();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('order_counpons');
     }
 };

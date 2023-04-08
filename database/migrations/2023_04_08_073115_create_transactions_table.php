@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent_id');
-            $table->foreign('parent_id')->references('id')->on('categories');
-            $table->string('description')->nullable();
-            $table->string('name');
+            $table->foreignId('order_id')->constrained();
+            $table->foreignId('payment_method_id')->constrained();
+            $table->double('amount');
+            $table->integer('status'); //success 1, faild 0, pedning 2, refunded 3
+            $table->string('transaction_id');
+
 
             $table->timestamps();
         });
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('transactions');
     }
 };

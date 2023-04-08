@@ -11,20 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained();
-
-            $table->tinyText('name');
-            $table->string('description_ar');
-            $table->string('description_fr');
-            $table->string('description_en');
-
-            $table->string('keywords');
-
-            $table->double('current_price');
-            $table->string('duration')->nullable();
-
+            $table->tinyInteger('type'); //credit_card 1, debit_card 2, paypal 3, others3 //maybe it will be a foreign key
+            $table->string('details');
             $table->timestamps();
         });
     }
@@ -34,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('payment_methods');
     }
 };

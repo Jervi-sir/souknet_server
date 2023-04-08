@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('service_id')->constrained();
             $table->foreignId('user_id')->constrained();
-
-            $table->integer('quantity');
-            $table->double('ordered_price');
-            $table->string('destination');
-            $table->tinyInteger('order_status');        //pending 1, processing 2, completed 3, canceled 4
-
-            $table->string('location');
-
+            $table->date('date');
+            $table->string('subject');
+            $table->string('message')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('bookings');
     }
 };

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Endpoint;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,5 +20,6 @@ Route::get('/', function () {
 
 
 Route::get('/api-endpoints', function () {
-    return view('endpoint');
+    $endpoints = Endpoint::all()->groupBy('section');
+    return view('endpoint', ['endpoints' => $endpoints]);
 });
