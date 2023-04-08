@@ -78,12 +78,12 @@
                                                 @foreach ($endpoints[$section] as $endpoint)
                                                     <tr>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <div class="text-sm text-gray-900">
-                                                                <input class="form-check-input" type="checkbox"
-                                                                    id="exampleCheckbox" name="exampleCheckbox"
-                                                                    value="value"
-                                                                    {{ $endpoint->is_checked ? 'checked' : '' }}>
-                                                            </div>
+                                                            <form class="text-sm text-gray-900">
+                                                                @csrf
+                                                                <input type="checkbox" class="task-checkbox"
+                                                                    data-task-id="{{ $endpoint->id }}"
+                                                                    {{ $endpoint->is_done ? 'checked' : '' }}>
+                                                            </form>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="text-sm text-gray-900">{{ $endpoint->endpoint }}
@@ -216,6 +216,31 @@
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).on('change', '.task-checkbox', function() {
+            const taskId = $(this).data('task-id');
+            const done = $(this).is(':checked');
+            $.ajax({
+                method: 'POST',
+                url: `/endpoint/${taskId}/done`,
+                data: {
+                    done
+                },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.error(error);
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>
