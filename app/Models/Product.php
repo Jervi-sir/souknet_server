@@ -24,7 +24,7 @@ class Product extends Model
         'company_id'
     ];
 
-    public function getCompany(): BelongsTo
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
@@ -39,12 +39,12 @@ class Product extends Model
         return $this->belongsTo(Order::class);
     }
 
-    public function getImages() :HasMany 
+    public function getImages(): HasMany
     {
         return $this->hasMany(ProductImage::class);
     }
 
-    public function getPriceHistory() :HasMany
+    public function getPriceHistory(): HasMany
     {
         return $this->hasMany(ProductPriceHistory::class);
     }

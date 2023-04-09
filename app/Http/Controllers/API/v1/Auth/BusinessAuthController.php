@@ -106,6 +106,7 @@ class BusinessAuthController extends Controller
         auth()->user()->currentAccessToken()->delete();
 
         return response()->json([
+            'status' => true,
             'message' => 'Successfully logged out'
         ]);
     }

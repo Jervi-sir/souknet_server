@@ -61,15 +61,11 @@
                                                     </th>
                                                     <th
                                                         class="px-6 py-3 sm:text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Body
+                                                        Header
                                                     </th>
                                                     <th
                                                         class="px-6 py-3 sm:text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Description
-                                                    </th>
-                                                    <th
-                                                        class="px-6 py-3 sm:text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Response
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -94,7 +90,7 @@
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <div class="text-sm text-gray-900">{{ $endpoint->body }}
+                                                            <div class="text-sm text-gray-900">{{ $endpoint->header }}
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -102,8 +98,15 @@
                                                                 {{ $endpoint->description }}
                                                             </div>
                                                         </td>
-                                                        <td class="px-6 py-4 whitespace-nowrap">
-                                                            <div class="text-sm text-gray-900">{{ $endpoint->response }}
+                                                    </tr>
+                                                    <tr class="expanded-data">
+                                                        <td colspan="5" class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="bg-gray-900">
+                                                                <pre class="text-sm text-gray-900">Body: {{ $endpoint->body ? $endpoint->body : 'no need' }}</pre>
+                                                            </div>
+                                                            <hr style="background: black">
+                                                            <div>
+                                                                <pre class="text-sm text-gray-900">Response: {{ $endpoint->response }}</pre>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -144,56 +147,7 @@
                     </div>
                 </div>
             </div>
-            <style>
-                table {
-                    width: 100%;
-                }
 
-                th,
-                td {
-                    text-align: left;
-                }
-
-                th {
-                    font-weight: 600;
-                }
-
-                th,
-                td {
-                    border-width: 1px;
-                }
-
-                tbody tr:last-child td {
-                    border-bottom-width: 0;
-                }
-
-                thead {
-                    border-bottom-width: 2px;
-                }
-
-                tr:nth-child(even) {
-                    background-color: #f2f2f2;
-                }
-
-                th,
-                td {
-                    padding: 0.75rem;
-                }
-
-                @media (max-width: 640px) {
-                    table {
-                        display: block;
-                        overflow-x: auto;
-                        white-space: nowrap;
-                    }
-
-                    th,
-                    td {
-                        display: inline-block;
-                        width: auto;
-                    }
-                }
-            </style>
             <div class="flex justify-center mt-16 px-0 sm:items-center sm:justify-between">
                 <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
                     <div class="flex items-center gap-4">
@@ -240,6 +194,69 @@
             });
         });
     </script>
+    <script>
+        document.querySelectorAll('tbody tr:not(.expanded-data)').forEach(row => {
+            row.addEventListener('click', () => {
+                const expandedData = row.nextElementSibling;
+                if (expandedData) {
+                    expandedData.style.display = expandedData.style.display === 'table-row' ? 'none' :
+                        'table-row';
+                }
+            });
+        });
+    </script>
+    <style>
+        table {
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: left;
+        }
+
+        th {
+            font-weight: 600;
+        }
+
+        th,
+        td {
+            border-width: 1px;
+        }
+
+        tbody tr:last-child td {
+            border-bottom-width: 0;
+        }
+
+        thead {
+            border-bottom-width: 2px;
+        }
+
+        th,
+        td {
+            padding: 0.75rem;
+        }
+
+        @media (max-width: 640px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            th,
+            td {
+                display: inline-block;
+                width: auto;
+            }
+        }
+
+        .expanded-data {
+            display: none;
+            padding: 8px;
+            background-color: #eee;
+        }
+    </style>
 
 </body>
 

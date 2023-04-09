@@ -21,17 +21,26 @@ use App\Http\Controllers\API\v1\Auth\BusinessAuthController;
 |--------------------------------------------------------------------------
 */
 
+Route::get('/test', function () {
+    return response()->json('welcome to Souk mok');
+});           //api[done] 
+
 Route::prefix('company')->middleware('guest:sanctum')->group(function () {
     Route::post('/register', [BusinessAuthController::class, 'registerCompany']);     //api[done]
     Route::post('/login', [BusinessAuthController::class, 'loginCompany']);           //api[done] 
 });
-
 Route::prefix('company')->middleware(['auth:sanctum', 'type.company'])->group(function () {
-    Route::post('/logout', [BusinessAuthController::class, 'logoutCompany']);         //api[done]
+    Route::post('/logout', [BusinessAuthController::class, 'logoutCompany']);
+});
+
+Route::prefix('auth/company')->middleware(['auth:sanctum', 'type.company'])->group(function () {
+    Route::get('/add-product', [BusinessController::class, 'getPostProduct']);         //api[done]             
     Route::post('/add-product', [BusinessController::class, 'postProduct']);         //api[done]             
     Route::post('/add-service', [BusinessController::class, 'postService']);         //api[done]
     Route::get('/getAllProducts', [BusinessController::class, 'getAllProducts']);
     Route::get('/getAllServices', [BusinessController::class, 'getAllServices']);
+
+    Route::get('/product/{id}', [BusinessController::class, 'getThisProduct']);
 });
 Route::prefix('product')->controller(ProductController::class)->group(function () {
     Route::get('/get/{productId}', 'showProduct');   //api[done]       
