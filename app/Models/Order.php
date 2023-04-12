@@ -16,9 +16,9 @@ class Order extends Model
         'amount_ordered', 'desctination',
     ];
 
-    public function product(): HasMany
+    public function product(): BelongsTo
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function user(): BelongsTo

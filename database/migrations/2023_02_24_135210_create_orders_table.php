@@ -19,9 +19,8 @@ return new class extends Migration
             $table->integer('quantity');
             $table->double('ordered_price');
             $table->string('destination');
-            $table->tinyInteger('order_status');        //pending 1, processing 2, completed 3, canceled 4
-
             $table->string('location');
+            $table->tinyInteger('order_status')->default(1);        //pending 1, processing 2, completed 3, canceled 4
 
             $table->timestamps();
         });

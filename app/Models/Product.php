@@ -53,4 +53,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Product::class, 'product_category', 'product_id', 'category_id');
     }
+
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorite_products');
+    }
 }

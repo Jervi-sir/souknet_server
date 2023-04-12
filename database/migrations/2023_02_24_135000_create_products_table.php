@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('description_fr');
             $table->string('description_en');
 
+            $table->tinyInteger('status')->default(1);   //archived: 0, avtive: 1
+
             $table->timestamps();
         });
     }

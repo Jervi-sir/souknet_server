@@ -51,8 +51,72 @@ class BusinessController extends Controller
     }
 
 
+
+
+    public function getAllMyProducts()
+    {
+        $products = Auth::user()->products;
+        return response()->json($products);
+    }
+
+
+
+    public function getThisProduct($id)
+    {
+        $product = Product::find($id);
+        $data['product'] = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'current_price' => floatval($product->current_price),
+            'stock_left' => intval($product->stock_left),
+            'keywords' => $product->keywords,
+            'description_ar' => $product->description_ar,
+            'description_fr' => $product->description_fr,
+            'description_en' => $product->description_en,
+        ];
+
+        $company = $product->company;
+
+        $data['company'] = [
+            'id' => $company->id,
+            'name' => $company->name,
+            'address' => $company->address,
+            'city' => $company->city,
+            'state' => $company->state,
+            'zip_code' => $company->zip_code,
+            'phone_number' => $company->phone_number,
+            'website' => $company->website,
+        ];
+
+        return response()->json([
+            'product' => $data['product'],
+            'company' => $data['company'],
+        ]);
+    }
+
+    public function deleteThisProduct($id)
+    {
+        $product = Product::find($id);
+        $product->delete();
+        return response()->json([
+            'message' => 'Product deleted successfully',
+        ]);
+    }
+
+    public function getPostService()
+    {
+        return response()->json('this is add service page, will send data once m sure what are they');
+    }
+
     public function postService(Request $request)
     {
+        $validateUser = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+            ]
+        );
+
         try {
 
             $service = new Service();
@@ -67,6 +131,7 @@ class BusinessController extends Controller
 
             return response()->json([
                 'message' => 'service added succesfully',
+                'service_id' => $service->id
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([
@@ -76,34 +141,23 @@ class BusinessController extends Controller
         }
     }
 
-    public function getAllProducts()
+    public function getThisService($id)
     {
-        $products = Auth::user()->getProducts;
-        return response()->json($products);
-    }
-
-    public function getAllServices()
-    {
-        $services = Auth::user()->getServices;
-        return response()->json($services);
-    }
-
-    public function getThisProduct($id)
-    {
-        $product = Product::find($id);
-        $data['product'] = [
-            'name' => $product->name,
-            'current_price' => floatval($product->current_price),
-            'stock_left' => intval($product->stock_left),
-            'keywords' => $product->keywords,
-            'description_ar' => $product->description_ar,
-            'description_fr' => $product->description_fr,
-            'description_en' => $product->description_en,
+        $service = Service::find($id);
+        $data['service'] = [
+            'id' => $service->id,
+            'name' => $service->name,
+            'current_price' => floatval($service->current_price),
+            'keywords' => $service->keywords,
+            'description_ar' => $service->description_ar,
+            'description_fr' => $service->description_fr,
+            'description_en' => $service->description_en,
         ];
 
-        $company = $product->company;
+        $company = $service->company;
 
         $data['company'] = [
+            'id' => $company->id,
             'name' => $company->name,
             'address' => $company->address,
             'city' => $company->city,
@@ -114,8 +168,41 @@ class BusinessController extends Controller
         ];
 
         return response()->json([
-            'product' => $data['product'],
+            'service' => $data['service'],
             'company' => $data['company'],
+        ]);
+    }
+
+    public function deleteThisService($id)
+    {
+        $service = Service::find($id);
+        $service->delete();
+        return response()->json([
+            'message' => 'Service deleted successfully',
+        ]);
+    }
+
+    public function getAllMyServices()
+    {
+        $services = Auth::user()->services;
+        return response()->json($services);
+    }
+
+    public function archiveThisProduct($id)
+    {
+        $product = Auth::user()->products->find($id);
+        $product->status = 0;
+        return response()->json([
+            'message' => 'Product archived successfully'
+        ]);
+    }
+
+    public function activateThisProduct($id)
+    {
+        $product = Auth::user()->products->find($id);
+        $product->status = 1;
+        return response()->json([
+            'message' => 'Product activated successfully'
         ]);
     }
 }

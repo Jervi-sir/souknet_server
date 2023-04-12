@@ -21,7 +21,7 @@ class Company extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password', 'phone_number', 'social_media_list', 
+        'name', 'email', 'password', 'phone_number', 'social_media_list',
         'description_ar', 'description_fr', 'description_en',
         'location', 'wilaya_number',
         'company_privilege_id'
@@ -32,28 +32,28 @@ class Company extends Authenticatable
         'remember_token',
     ];
 
-    public function getPrivilege() :BelongsTo
+    public function getPrivilege(): BelongsTo
     {
         return $this->belongsTo(CompanyPrivilege::class);
     }
 
-    public function getImages() :HasMany
+    public function getImages(): HasMany
     {
         return $this->hasMany(CompanyImage::class);
     }
 
-    public function getServices() :HasMany
+    public function services(): HasMany
     {
         return $this->hasMany(Service::class);
     }
 
-    public function getProducts() :HasMany
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
 
-    public function getFollowers(): BelongsToMany
+    public function usersFollower(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_company', 'company_id', 'user_id');
+        return $this->belongsToMany(User::class);
     }
 }

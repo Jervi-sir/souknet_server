@@ -23,7 +23,7 @@ Route::get('/', function () {
 Route::get('/api-endpoints', function () {
     $endpoints = Endpoint::all()->groupBy('section');
     return view('endpoint', ['endpoints' => $endpoints]);
-});
+})->name('endpoints');
 
 Route::post('endpoint/{id}/done', function ($id) {
     $endpoint = Endpoint::find($id);

@@ -14,18 +14,23 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'company_id', 'name', 
+        'company_id', 'name',
         'description_ar', 'description_fr', 'description_en',
         'keywords', 'current_price',
     ];
 
-    public function getCompany(): BelongsTo
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }
 
-    public function getImages() :HasMany
+    public function getImages(): HasMany
     {
         return $this->hasMany(CompanyImage::class);
+    }
+
+    public function favoritedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'favorite_services');
     }
 }

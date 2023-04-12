@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Order;
 use App\Models\Company;
 use App\Models\Product;
+use App\Models\Service;
 use App\Models\UserImage;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -54,19 +55,33 @@ class User extends Authenticatable
         return $this->belongsToMany(Product::class, 'orders', 'user_id', 'product_id');
     }
 
-    public function getOrders(): HasMany
+    public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
     }
 
-    public function getImages() :HasMany
+    public function getImages(): HasMany
     {
         return $this->hasMany(UserImage::class);
     }
 
-    public function getFollowing(): BelongsToMany
+    public function companiesFollowing(): BelongsToMany
     {
-        return $this->belongsToMany(Company::class, 'user_company', 'user_id', 'company_id');
+        return $this->belongsToMany(Company::class);
     }
 
+    public function favoriteProducts()
+    {
+        return $this->belongsToMany(Product::class, 'favorite_products');
+    }
+
+    public function favoriteServices()
+    {
+        return $this->belongsToMany(Service::class, 'favorite_services');
+    }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

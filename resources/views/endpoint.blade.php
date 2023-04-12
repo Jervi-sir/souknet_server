@@ -74,15 +74,21 @@
                                                 @foreach ($endpoints[$section] as $endpoint)
                                                     <tr>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <form class="text-sm text-gray-900">
-                                                                @csrf
-                                                                <input type="checkbox" class="task-checkbox"
-                                                                    data-task-id="{{ $endpoint->id }}"
-                                                                    {{ $endpoint->is_done ? 'checked' : '' }}>
-                                                            </form>
+                                                            @if ($endpoint->api_setup != 0)
+                                                                <form class="text-sm text-gray-900">
+                                                                    @csrf
+                                                                    <input type="checkbox" class="task-checkbox"
+                                                                        data-task-id="{{ $endpoint->id }}"
+                                                                        {{ $endpoint->is_done ? 'checked' : '' }}
+                                                                        @if ($endpoint->api_setup == 0) disabled @endif>
+
+                                                                </form>
+                                                            @endif
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <div class="text-sm text-gray-900">{{ $endpoint->endpoint }}
+                                                            <div class="text-sm text-gray-900"
+                                                                @if ($endpoint->api_setup == 0) style="color:#ff6347" @endif>
+                                                                {{ $endpoint->endpoint }}
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -237,6 +243,11 @@
             padding: 0.75rem;
         }
 
+        tr:hover {
+            background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+            background-image: url(data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E);
+        }
+
         @media (max-width: 640px) {
             table {
                 display: block;
@@ -254,7 +265,8 @@
         .expanded-data {
             display: none;
             padding: 8px;
-            background-color: #eee;
+            background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+            background-image: url(data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E);
         }
     </style>
 
