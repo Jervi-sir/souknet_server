@@ -17,15 +17,18 @@ class AdminAuthController extends Controller
     | Admin Auth :: loginAdmin(), registerAdmin(), logoutAdmin()
     |--------------------------------------------------------------------------
     */
-    public function loginAdmin(Request $request) {
+    public function loginAdmin(Request $request)
+    {
         try {
-            $validateUser = Validator::make($request->all(), 
-            [
-                'email' => 'required|email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'email' => 'required|email',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -46,7 +49,6 @@ class AdminAuthController extends Controller
                 'message' => 'User Logged In Successfully',
                 'token' => $admin->createToken($request->header('User-Agent'), ['role:admin'])->plainTextToken
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -55,17 +57,20 @@ class AdminAuthController extends Controller
         }
     }
 
-    public function registerAdmin(Request $request, string $id) {
+    public function registerAdmin(Request $request, string $id)
+    {
         try {
             //Validated
-            $validateUser = Validator::make($request->all(), 
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
+            $validateUser = Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required',
+                    'email' => 'required|email|unique:users,email',
+                    'password' => 'required'
+                ]
+            );
 
-            if($validateUser->fails()){
+            if ($validateUser->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => 'validation error',
@@ -84,7 +89,6 @@ class AdminAuthController extends Controller
                 'message' => 'User Created Successfully',
                 'token' => $admin->createToken($request->header('User-Agent'), ['role:admin'])->plainTextToken
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -93,12 +97,20 @@ class AdminAuthController extends Controller
         }
     }
 
-    public function logoutAdmin(Request $request) {
-        //$request->user()->tokens()->delete();
-        auth()->user()->currentAccessToken()->delete();
+    public function logoutAdmin(Request $request)
+    {
+        try {
+            //$request->user()->tokens()->delete();
+            auth()->user()->currentAccessToken()->delete();
 
-        return response()->json([
-        'message' => 'Successfully logged out'
-        ]);
+            return response()->json([
+                'message' => 'Successfully logged out'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 }

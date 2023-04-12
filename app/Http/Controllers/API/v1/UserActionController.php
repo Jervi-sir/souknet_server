@@ -16,7 +16,14 @@ class UserActionController extends Controller
 {
     public function test()
     {
-        return response()->json('succc');
+        try {
+            return response()->json('succc');
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function followCompany($id)
@@ -55,12 +62,26 @@ class UserActionController extends Controller
 
     public function followNewsletter($id)
     {
-        return response()->json($id);
+        try {
+            return response()->json($id);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function unFollowNewsletter($id)
     {
-        return response()->json($id);
+        try {
+            return response()->json($id);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function favoriteThisProduct($id)
@@ -164,151 +185,230 @@ class UserActionController extends Controller
 
     public function getMyOrders()
     {
-        $orders = Auth::user()->orders;
-        return response()->json([
-            'message' => 'user orders list',
-            'orders' => $orders
-        ]);
+        try {
+            $orders = Auth::user()->orders;
+            return response()->json([
+                'message' => 'user orders list',
+                'orders' => $orders
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getThisOrder($id)
     {
-        $orders = Auth::user()->orders->find($id);
-        return response()->json([
-            'message' => 'user this order',
-            'orders' => $orders
-        ]);
+        try {
+            $orders = Auth::user()->orders->find($id);
+            return response()->json([
+                'message' => 'user this order',
+                'orders' => $orders
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getMyFavoriteProducts()
     {
-        $products = Auth::user()->favoriteProducts;
-        return response()->json([
-            'message' => 'user s favorite products',
-            'products' => $products
-        ]);
+        try {
+            $products = Auth::user()->favoriteProducts;
+            return response()->json([
+                'message' => 'user s favorite products',
+                'products' => $products
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getThisFavoriteProduct($id)
     {
-        $product = Auth::user()->favoriteProducts->find($id);
-        $data['product'] = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'current_price' => floatval($product->current_price),
-            'stock_left' => intval($product->stock_left),
-            'keywords' => $product->keywords,
-            'description_ar' => $product->description_ar,
-            'description_fr' => $product->description_fr,
-            'description_en' => $product->description_en,
-        ];
-        $company = $product->company;
-        $data['company'] = [
-            'id' => $company->id,
-            'name' => $company->name,
-            'address' => $company->address,
-            'city' => $company->city,
-            'state' => $company->state,
-            'zip_code' => $company->zip_code,
-            'phone_number' => $company->phone_number,
-            'website' => $company->website,
-        ];
-        return response()->json([
-            'message' => 'user s favorite product',
-            'product' => $data['product'],
-            'company' => $data['company']
-        ]);
+        try {
+            $product = Auth::user()->favoriteProducts->find($id);
+            $data['product'] = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'current_price' => floatval($product->current_price),
+                'stock_left' => intval($product->stock_left),
+                'keywords' => $product->keywords,
+                'description_ar' => $product->description_ar,
+                'description_fr' => $product->description_fr,
+                'description_en' => $product->description_en,
+            ];
+            $company = $product->company;
+            $data['company'] = [
+                'id' => $company->id,
+                'name' => $company->name,
+                'address' => $company->address,
+                'city' => $company->city,
+                'state' => $company->state,
+                'zip_code' => $company->zip_code,
+                'phone_number' => $company->phone_number,
+                'website' => $company->website,
+            ];
+            return response()->json([
+                'message' => 'user s favorite product',
+                'product' => $data['product'],
+                'company' => $data['company']
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getMyFavoriteServices()
     {
-        $service = Auth::user()->favoriteServices;
-        return response()->json([
-            'message' => 'user s favorite service',
-            'service' => $service
-        ]);
+        try {
+            $service = Auth::user()->favoriteServices;
+            return response()->json([
+                'message' => 'user s favorite service',
+                'service' => $service
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getThisFavoriteService($id)
     {
-        $service = Auth::user()->favoriteServices->find($id);
-        $data['service'] = [
-            'id' => $service->id,
-            'name' => $service->name,
-            'current_price' => floatval($service->current_price),
-            'keywords' => $service->keywords,
-            'description_ar' => $service->description_ar,
-            'description_fr' => $service->description_fr,
-            'description_en' => $service->description_en,
-        ];
+        try {
 
-        $company = $service->company;
+            $service = Auth::user()->favoriteServices->find($id);
+            $data['service'] = [
+                'id' => $service->id,
+                'name' => $service->name,
+                'current_price' => floatval($service->current_price),
+                'keywords' => $service->keywords,
+                'description_ar' => $service->description_ar,
+                'description_fr' => $service->description_fr,
+                'description_en' => $service->description_en,
+            ];
 
-        $data['company'] = [
-            'id' => $company->id,
-            'name' => $company->name,
-            'address' => $company->address,
-            'city' => $company->city,
-            'state' => $company->state,
-            'zip_code' => $company->zip_code,
-            'phone_number' => $company->phone_number,
-            'website' => $company->website,
-        ];
-        return response()->json([
-            'message' => 'user s favorite service',
-            'service' => $data['service'],
-            'company' => $data['company']
-        ]);
+            $company = $service->company;
+
+            $data['company'] = [
+                'id' => $company->id,
+                'name' => $company->name,
+                'address' => $company->address,
+                'city' => $company->city,
+                'state' => $company->state,
+                'zip_code' => $company->zip_code,
+                'phone_number' => $company->phone_number,
+                'website' => $company->website,
+            ];
+            return response()->json([
+                'message' => 'user s favorite service',
+                'service' => $data['service'],
+                'company' => $data['company']
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getMyNotifications()
     {
-        return response()->json([
-            'message' => 'setup not yet',
-        ]);
+        try {
+            return response()->json([
+                'message' => 'setup not yet',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getThisNotifications($id)
     {
-        return response()->json([
-            'message' => 'setup not yet',
-        ]);
+        try {
+            return response()->json([
+                'message' => 'setup not yet',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function bookService(Request $request, $id)
     {
-        $service = Service::find($id);
-        $book = new Booking();
-        $book->user_id = Auth::user()->id;
-        $book->service_id = $service->id;
-        $book->date = Carbon::parse($request->date);        //2023-03-31
-        $book->subject = $request->subject;
-        $book->message = $request->message;
-        $book->save();
+        try {
 
-        return response()->json([
-            'message' => 'appoitment booked successfully',
-            'book' => [
-                'service_id' => $service->id,
-                'service_name' => $service->name,
-                'date' => $book->date,
-                'subject' => $book->subject,
-                'message' => $book->message,
-            ]
-        ]);
+            $service = Service::find($id);
+            $book = new Booking();
+            $book->user_id = Auth::user()->id;
+            $book->service_id = $service->id;
+            $book->date = Carbon::parse($request->date);        //2023-03-31
+            $book->subject = $request->subject;
+            $book->message = $request->message;
+            $book->save();
+
+            return response()->json([
+                'message' => 'appoitment booked successfully',
+                'book' => [
+                    'service_id' => $service->id,
+                    'service_name' => $service->name,
+                    'date' => $book->date,
+                    'subject' => $book->subject,
+                    'message' => $book->message,
+                ]
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function unBookService($id)
     {
-        $book = Booking::find($id);
-        $book->delete();
-        return response()->json([
-            'message' => 'canceled booking successfully'
-        ]);
+        try {
+            $book = Booking::find($id);
+            $book->delete();
+            return response()->json([
+                'message' => 'canceled booking successfully'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function addReviewProduct($id)
     {
-        $product = Product::find($id);
+        try {
+            $product = Product::find($id);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 }

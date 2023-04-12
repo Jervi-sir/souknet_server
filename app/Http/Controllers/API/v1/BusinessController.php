@@ -13,7 +13,14 @@ class BusinessController extends Controller
 {
     public function getPostProduct()
     {
-        return response()->json('success');
+        try {
+            return response()->json('success');
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function postProduct(Request $request)
@@ -55,57 +62,88 @@ class BusinessController extends Controller
 
     public function getAllMyProducts()
     {
-        $products = Auth::user()->products;
-        return response()->json($products);
+        try {
+
+            $products = Auth::user()->products;
+            return response()->json($products);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
 
 
     public function getThisProduct($id)
     {
-        $product = Product::find($id);
-        $data['product'] = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'current_price' => floatval($product->current_price),
-            'stock_left' => intval($product->stock_left),
-            'keywords' => $product->keywords,
-            'description_ar' => $product->description_ar,
-            'description_fr' => $product->description_fr,
-            'description_en' => $product->description_en,
-        ];
+        try {
 
-        $company = $product->company;
+            $product = Product::find($id);
+            $data['product'] = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'current_price' => floatval($product->current_price),
+                'stock_left' => intval($product->stock_left),
+                'keywords' => $product->keywords,
+                'description_ar' => $product->description_ar,
+                'description_fr' => $product->description_fr,
+                'description_en' => $product->description_en,
+            ];
 
-        $data['company'] = [
-            'id' => $company->id,
-            'name' => $company->name,
-            'address' => $company->address,
-            'city' => $company->city,
-            'state' => $company->state,
-            'zip_code' => $company->zip_code,
-            'phone_number' => $company->phone_number,
-            'website' => $company->website,
-        ];
+            $company = $product->company;
 
-        return response()->json([
-            'product' => $data['product'],
-            'company' => $data['company'],
-        ]);
+            $data['company'] = [
+                'id' => $company->id,
+                'name' => $company->name,
+                'address' => $company->address,
+                'city' => $company->city,
+                'state' => $company->state,
+                'zip_code' => $company->zip_code,
+                'phone_number' => $company->phone_number,
+                'website' => $company->website,
+            ];
+
+            return response()->json([
+                'product' => $data['product'],
+                'company' => $data['company'],
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function deleteThisProduct($id)
     {
-        $product = Product::find($id);
-        $product->delete();
-        return response()->json([
-            'message' => 'Product deleted successfully',
-        ]);
+        try {
+
+            $product = Product::find($id);
+            $product->delete();
+            return response()->json([
+                'message' => 'Product deleted successfully',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getPostService()
     {
-        return response()->json('this is add service page, will send data once m sure what are they');
+        try {
+            return response()->json('this is add service page, will send data once m sure what are they');
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function postService(Request $request)
@@ -143,66 +181,106 @@ class BusinessController extends Controller
 
     public function getThisService($id)
     {
-        $service = Service::find($id);
-        $data['service'] = [
-            'id' => $service->id,
-            'name' => $service->name,
-            'current_price' => floatval($service->current_price),
-            'keywords' => $service->keywords,
-            'description_ar' => $service->description_ar,
-            'description_fr' => $service->description_fr,
-            'description_en' => $service->description_en,
-        ];
+        try {
 
-        $company = $service->company;
+            $service = Service::find($id);
+            $data['service'] = [
+                'id' => $service->id,
+                'name' => $service->name,
+                'current_price' => floatval($service->current_price),
+                'keywords' => $service->keywords,
+                'description_ar' => $service->description_ar,
+                'description_fr' => $service->description_fr,
+                'description_en' => $service->description_en,
+            ];
 
-        $data['company'] = [
-            'id' => $company->id,
-            'name' => $company->name,
-            'address' => $company->address,
-            'city' => $company->city,
-            'state' => $company->state,
-            'zip_code' => $company->zip_code,
-            'phone_number' => $company->phone_number,
-            'website' => $company->website,
-        ];
+            $company = $service->company;
 
-        return response()->json([
-            'service' => $data['service'],
-            'company' => $data['company'],
-        ]);
+            $data['company'] = [
+                'id' => $company->id,
+                'name' => $company->name,
+                'address' => $company->address,
+                'city' => $company->city,
+                'state' => $company->state,
+                'zip_code' => $company->zip_code,
+                'phone_number' => $company->phone_number,
+                'website' => $company->website,
+            ];
+
+            return response()->json([
+                'service' => $data['service'],
+                'company' => $data['company'],
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function deleteThisService($id)
     {
-        $service = Service::find($id);
-        $service->delete();
-        return response()->json([
-            'message' => 'Service deleted successfully',
-        ]);
+        try {
+
+            $service = Service::find($id);
+            $service->delete();
+            return response()->json([
+                'message' => 'Service deleted successfully',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function getAllMyServices()
     {
-        $services = Auth::user()->services;
-        return response()->json($services);
+        try {
+
+            $services = Auth::user()->services;
+            return response()->json($services);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function archiveThisProduct($id)
     {
-        $product = Auth::user()->products->find($id);
-        $product->status = 0;
-        return response()->json([
-            'message' => 'Product archived successfully'
-        ]);
+        try {
+
+            $product = Auth::user()->products->find($id);
+            $product->status = 0;
+            return response()->json([
+                'message' => 'Product archived successfully'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 
     public function activateThisProduct($id)
     {
-        $product = Auth::user()->products->find($id);
-        $product->status = 1;
-        return response()->json([
-            'message' => 'Product activated successfully'
-        ]);
+        try {
+
+            $product = Auth::user()->products->find($id);
+            $product->status = 1;
+            return response()->json([
+                'message' => 'Product activated successfully'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 }

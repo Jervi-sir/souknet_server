@@ -101,11 +101,18 @@ class UserAuthController extends Controller
 
     public function logoutUser(Request $request)
     {
-        //$request->user()->tokens()->delete();
-        auth()->user()->currentAccessToken()->delete();
+        try {
+            //$request->user()->tokens()->delete();
+            auth()->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Successfully logged out'
-        ]);
+            return response()->json([
+                'message' => 'Successfully logged out'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 }

@@ -50,39 +50,55 @@ class ServiceController extends Controller
 
     public function latestService()
     {
-        $services = Service::latest();
-        foreach ($services as $index => $service) {
-            $data['services'][$index] = [
-                'id' => $service->id,
-                'name' => $service->name,
-                'current_price' => floatval($service->current_price),
-                'keywords' => $service->keywords,
-                'description_ar' => $service->description_ar,
-                'description_fr' => $service->description_fr,
-                'description_en' => $service->description_en,
-            ];
+        try {
+
+            $services = Service::latest();
+            foreach ($services as $index => $service) {
+                $data['services'][$index] = [
+                    'id' => $service->id,
+                    'name' => $service->name,
+                    'current_price' => floatval($service->current_price),
+                    'keywords' => $service->keywords,
+                    'description_ar' => $service->description_ar,
+                    'description_fr' => $service->description_fr,
+                    'description_en' => $service->description_en,
+                ];
+            }
+            return response()->json([
+                'services' => $data['services'],
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
-        return response()->json([
-            'services' => $data['services'],
-        ]);
     }
 
     public function searchService($keywords)
     {
-        $services = Service::inRandomOrder()->get();
-        foreach ($services as $index => $service) {
-            $data['services'][$index] = [
-                'id' => $service->id,
-                'name' => $service->name,
-                'current_price' => floatval($service->current_price),
-                'keywords' => $service->keywords,
-                'description_ar' => $service->description_ar,
-                'description_fr' => $service->description_fr,
-                'description_en' => $service->description_en,
-            ];
+        try {
+
+            $services = Service::inRandomOrder()->get();
+            foreach ($services as $index => $service) {
+                $data['services'][$index] = [
+                    'id' => $service->id,
+                    'name' => $service->name,
+                    'current_price' => floatval($service->current_price),
+                    'keywords' => $service->keywords,
+                    'description_ar' => $service->description_ar,
+                    'description_fr' => $service->description_fr,
+                    'description_en' => $service->description_en,
+                ];
+            }
+            return response()->json([
+                'services' => $data['services'],
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
         }
-        return response()->json([
-            'services' => $data['services'],
-        ]);
     }
 }
