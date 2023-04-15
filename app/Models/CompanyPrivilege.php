@@ -11,7 +11,12 @@ class CompanyPrivilege extends Model
 {
     use HasFactory;
 
-    public function getCompanies() :HasMany
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
+    public function getCompanies(): HasMany
     {
         return $this->hasMany(Company::class);
     }

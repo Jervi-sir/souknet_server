@@ -32,6 +32,11 @@ class Company extends Authenticatable
         'remember_token',
     ];
 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
     public function getPrivilege(): BelongsTo
     {
         return $this->belongsTo(CompanyPrivilege::class);

@@ -10,12 +10,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class UserImage extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'user_id', 'url', 'meta_keywords'
     ];
 
-    public function getUser() :BelongsTo
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
+    public function getUser(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

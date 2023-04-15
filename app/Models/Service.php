@@ -19,6 +19,11 @@ class Service extends Model
         'keywords', 'current_price',
     ];
 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

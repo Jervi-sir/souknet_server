@@ -12,10 +12,15 @@ class ServiceImage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'service_id', 'url', 'meta_keywords',        
+        'service_id', 'url', 'meta_keywords',
     ];
 
-    public function getService() :BelongsTo 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
+    public function getService(): BelongsTo
     {
         return $this->belongsTo(Service::class);
     }

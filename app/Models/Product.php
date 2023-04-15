@@ -24,6 +24,11 @@ class Product extends Model
         'company_id'
     ];
 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);

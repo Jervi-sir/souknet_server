@@ -15,7 +15,12 @@ class ProductPriceHistory extends Model
         'product_id', 'price'
     ];
 
-    public function getProduct() :BelongsTo
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
+    public function getProduct(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }

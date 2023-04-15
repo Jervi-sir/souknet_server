@@ -20,9 +20,9 @@ return new class extends Migration
             $table->integer('stock_left')->default(0);
 
             $table->string('keywords');
-            $table->string('description_ar');
-            $table->string('description_fr');
-            $table->string('description_en');
+            $table->longText('description_ar');
+            $table->longText('description_fr');
+            $table->longText('description_en');
 
             $table->tinyInteger('status')->default(1);   //archived: 0, avtive: 1
 

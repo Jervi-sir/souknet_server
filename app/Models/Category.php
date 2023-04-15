@@ -10,6 +10,11 @@ class Category extends Model
 {
     use HasFactory;
 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
     public function getProducts(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'product_category', 'category_id', 'product_id');

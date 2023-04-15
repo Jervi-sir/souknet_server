@@ -16,6 +16,11 @@ class Order extends Model
         'amount_ordered', 'desctination',
     ];
 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

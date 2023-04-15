@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('password');
 
             $table->string('social_media_list')->nullable();
-            $table->string('description_ar')->nullable();
-            $table->string('description_fr')->nullable();
-            $table->string('description_en')->nullable();
+            $table->longText('description_ar')->nullable();
+            $table->longText('description_fr')->nullable();
+            $table->longText('description_en')->nullable();
 
             $table->tinytext('address')->nullable();
             $table->tinytext('city')->nullable();

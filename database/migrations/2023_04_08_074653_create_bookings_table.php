@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->date('date');
             $table->string('subject');
-            $table->string('message')->nullable();
+            $table->longText('message')->nullable();
             $table->timestamps();
         });
     }

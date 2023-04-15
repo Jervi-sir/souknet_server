@@ -16,14 +16,15 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained();
 
             $table->tinyText('name');
-            $table->string('description_ar');
-            $table->string('description_fr');
-            $table->string('description_en');
+            $table->longText('description_ar');
+            $table->longText('description_fr');
+            $table->longText('description_en');
 
             $table->string('keywords');
 
             $table->double('current_price');
             $table->string('duration')->nullable();
+            $table->tinyInteger('status')->default(1);   //archived: 0, avtive: 1
 
             $table->timestamps();
         });

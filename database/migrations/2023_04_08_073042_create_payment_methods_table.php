@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payment_methods', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained();
-            $table->tinyInteger('type'); //credit_card 1, debit_card 2, paypal 3, others3 //maybe it will be a foreign key
+            $table->tinyInteger('type'); //credit_card 1, debit_card 2, paypal 3, others 4 //maybe it will be a foreign key
             $table->string('details');
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration
     // This table will store information about which coupons have been applied to an order.
     public function up(): void
     {
-        Schema::create('order_counpons', function (Blueprint $table) {
+        Schema::create('order_coupons', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained();
             $table->foreignId('coupon_id')->constrained();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_counpons');
+        Schema::dropIfExists('order_coupons');
     }
 };

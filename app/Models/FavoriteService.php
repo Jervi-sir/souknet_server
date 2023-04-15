@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class FavoriteService extends Model
 {
     use HasFactory;
+
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
 }

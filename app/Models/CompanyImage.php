@@ -11,11 +11,16 @@ class CompanyImage extends Model
 {
     use HasFactory;
 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
     protected $fillable = [
         'company_id', 'url', 'meta_keywords'
     ];
 
-    public function getCompany() :BelongsTo
+    public function getCompany(): BelongsTo
     {
         return $this->belongsTo(Company::class);
     }

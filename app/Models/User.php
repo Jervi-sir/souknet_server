@@ -50,6 +50,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
     public function getProducts(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'orders', 'user_id', 'product_id');

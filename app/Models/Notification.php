@@ -11,6 +11,11 @@ class Notification extends Model
 {
     use HasFactory;
 
+    public static function random()
+    {
+        return self::inRandomOrder()->first();
+    }
+
     public function companiesFollowing(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
