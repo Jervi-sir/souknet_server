@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ServiceController extends Controller
 {
@@ -19,6 +21,7 @@ class ServiceController extends Controller
                 'name' => $service->name,
                 'current_price' => floatval($service->current_price),
                 'keywords' => $service->keywords,
+                'images' => $service->images,
                 'description_ar' => $service->description_ar,
                 'description_fr' => $service->description_fr,
                 'description_en' => $service->description_en,
@@ -35,6 +38,7 @@ class ServiceController extends Controller
                 'zip_code' => $company->zip_code,
                 'phone_number' => $company->phone_number,
                 'website' => $company->website,
+                'images' => $company->images,
             ];
         } catch (\Throwable $th) {
             return response()->json([
@@ -52,13 +56,15 @@ class ServiceController extends Controller
     {
         try {
 
-            $services = Service::latest();
+            $data['services'] = [];
+            $services = Service::latest()->get();
             foreach ($services as $index => $service) {
                 $data['services'][$index] = [
                     'id' => $service->id,
                     'name' => $service->name,
                     'current_price' => floatval($service->current_price),
                     'keywords' => $service->keywords,
+                    'images' => $service->images,
                     'description_ar' => $service->description_ar,
                     'description_fr' => $service->description_fr,
                     'description_en' => $service->description_en,
@@ -86,6 +92,36 @@ class ServiceController extends Controller
                     'name' => $service->name,
                     'current_price' => floatval($service->current_price),
                     'keywords' => $service->keywords,
+                    'images' => $service->images,
+                    'description_ar' => $service->description_ar,
+                    'description_fr' => $service->description_fr,
+                    'description_en' => $service->description_en,
+                ];
+            }
+            return response()->json([
+                'services' => $data['services'],
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function latestServiceSubCategory($subId)
+    {
+        try {
+            $subCategory = SubCategory::find($subId);
+            $services = $subCategory->services->latest();
+            foreach ($services as $index => $service) {
+                $data['services'][$index] = [
+                    'id' => $service->id,
+                    'name' => $service->name,
+                    'current_price' => floatval($service->current_price),
+                    'stock_left' => intval($service->stock_left),
+                    'keywords' => $service->keywords,
+                    'images' => $service->images,
                     'description_ar' => $service->description_ar,
                     'description_fr' => $service->description_fr,
                     'description_en' => $service->description_en,

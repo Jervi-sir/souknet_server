@@ -16,6 +16,12 @@ class CompanyImage extends Model
         return self::inRandomOrder()->first();
     }
 
+    protected $hidden = [
+        'id',
+        'company_id',
+        'created_at', 'updated_at'
+    ];
+
     protected $fillable = [
         'company_id', 'url', 'meta_keywords'
     ];

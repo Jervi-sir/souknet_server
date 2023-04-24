@@ -80,6 +80,7 @@ Route::prefix('auth/company')->middleware(['auth:sanctum', 'type.company'])->gro
 Route::prefix('product')->controller(ProductController::class)->group(function () {
     Route::get('/get/{id}', 'showProduct');
     Route::get('/latest', 'latestProduct');
+    Route::get('/latest&subcategory={subId}', 'latestProductSubCategory');
     Route::get('/search/{keywords}', 'searchProduct');
 });
 Route::prefix('service')->controller(ServiceController::class)->group(function () {
@@ -98,8 +99,11 @@ Route::prefix('user')->middleware('guest:sanctum')->group(function () {
     Route::post('/login', [UserAuthController::class, 'loginUser']);
 });
 
-Route::prefix('auth/user/')->middleware(['auth:sanctum', 'type.user'])->group(function () {
+Route::prefix('user/')->middleware(['auth:sanctum', 'type.user'])->group(function () {
     Route::post('logout', [UserAuthController::class, 'logoutUser']);
+});
+
+Route::prefix('auth/user/')->middleware(['auth:sanctum', 'type.user'])->group(function () {
     Route::post('company/{id}/follow', [UserActionController::class, 'followCompany']);
     Route::post('company/{id}/unfollow', [UserActionController::class, 'unFollowCompany']);
     Route::post('company/{id}/newsletter/follow', [UserActionController::class, 'followNewsletter']);

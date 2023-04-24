@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -13,17 +15,20 @@ class ProductController extends Controller
         $product = Product::find($id);
         $data['product'] = [];
         $data['company'] = [];
-        try {
 
+
+        try {
             $data['product'] = [
                 'id' => $product->id,
                 'name' => $product->name,
                 'current_price' => floatval($product->current_price),
                 'stock_left' => intval($product->stock_left),
                 'keywords' => $product->keywords,
+                'images' => $product->images,
                 'description_ar' => $product->description_ar,
                 'description_fr' => $product->description_fr,
                 'description_en' => $product->description_en,
+
             ];
 
             $company = $product->company;
@@ -37,30 +42,31 @@ class ProductController extends Controller
                 'zip_code' => $company->zip_code,
                 'phone_number' => $company->phone_number,
                 'website' => $company->website,
+                'images' => $company->images,
             ];
+            return response()->json([
+                'product' => $data['product'],
+                'company' => $data['company'],
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
                 'message' => $th->getMessage()
             ], 404);
         }
-
-        return response()->json([
-            'product' => $data['product'],
-            'company' => $data['company'],
-        ]);
     }
     public function latestProduct()
     {
         try {
-
-            $products = Product::latest();
+            $data['products'] = [];
+            $products = Product::inRandomOrder()->get();
             foreach ($products as $index => $product) {
                 $data['products'][$index] = [
                     'id' => $product->id,
                     'name' => $product->name,
                     'current_price' => floatval($product->current_price),
                     'stock_left' => intval($product->stock_left),
+                    'images' => $product->images,
                     'keywords' => $product->keywords,
                     'description_ar' => $product->description_ar,
                     'description_fr' => $product->description_fr,
@@ -81,7 +87,6 @@ class ProductController extends Controller
     public function searchProduct($keywords)
     {
         try {
-
             $products = Product::inRandomOrder()->get();
             foreach ($products as $index => $product) {
                 $data['products'][$index] = [
@@ -90,13 +95,43 @@ class ProductController extends Controller
                     'current_price' => floatval($product->current_price),
                     'stock_left' => intval($product->stock_left),
                     'keywords' => $product->keywords,
+                    'images' => $product->images,
                     'description_ar' => $product->description_ar,
                     'description_fr' => $product->description_fr,
                     'description_en' => $product->description_en,
                 ];
             }
             return response()->json([
-                'services' => $data['services'],
+                'products' => $data['products'],
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
+
+    public function latestProductSubCategory($subId)
+    {
+        try {
+            $subCategory = SubCategory::find($subId);
+            $products = $subCategory->products->latest();
+            foreach ($products as $index => $product) {
+                $data['products'][$index] = [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'current_price' => floatval($product->current_price),
+                    'stock_left' => intval($product->stock_left),
+                    'keywords' => $product->keywords,
+                    'images' => $product->images,
+                    'description_ar' => $product->description_ar,
+                    'description_fr' => $product->description_fr,
+                    'description_en' => $product->description_en,
+                ];
+            }
+            return response()->json([
+                'products' => $data['products'],
             ]);
         } catch (\Throwable $th) {
             return response()->json([

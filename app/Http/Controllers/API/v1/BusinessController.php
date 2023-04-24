@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API\v1;
 
 use App\Models\Product;
+use App\Models\Service;
+use App\Models\Category;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Service;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -34,17 +36,30 @@ class BusinessController extends Controller
             ]
         );
         try {
+            $category = Category::find(2);
             $product = new Product();
             $product->company_id = Auth::user()->id;
             $product->name = $request->name;
             $product->current_price = floatval($request->current_price);
             $product->stock_left = intval($request->stock_left);
             $product->keywords = $request->keywords;
-            $product->description_ar = $request->description_en;
-            $product->description_fr = $request->description_en;
+            $product->description_ar = $request->description_ar;
+            $product->description_fr = $request->description_fr;
             $product->description_en = $request->description_en;
+            $product->category_id = $category->id;
+            $product->sub_category_id = $category->subCategories()->inRandomOrder()->first()->id;
             $product->save();
 
+            $string = preg_replace('/\s+/', '', $request->images);
+            $imagesArray = explode(',', $string);
+
+            foreach ($imagesArray as $url) {
+                $image = new ProductImage();
+                $image->product_id = $product->id;
+                $image->url = $url;
+                $image->meta_keywords = $request->name;
+                $image->save();
+            }
             return response()->json([
                 'message' => 'product added succesfully',
                 'product_id' => $product->id,
@@ -65,7 +80,22 @@ class BusinessController extends Controller
         try {
 
             $products = Auth::user()->products;
-            return response()->json($products);
+            foreach ($products as $index => $product) {
+                $data['products'][$index] = [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'current_price' => floatval($product->current_price),
+                    'stock_left' => intval($product->stock_left),
+                    'images' => $product->images,
+                    'keywords' => $product->keywords,
+                    'description_ar' => $product->description_ar,
+                    'description_fr' => $product->description_fr,
+                    'description_en' => $product->description_en,
+                ];
+            }
+            return response()->json([
+                'products' => $data['products']
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -157,6 +187,7 @@ class BusinessController extends Controller
 
         try {
 
+            $category = Category::find(1);
             $service = new Service();
             $service->company_id = Auth::user()->id;
             $service->name = $request->name;
@@ -165,6 +196,8 @@ class BusinessController extends Controller
             $service->description_ar = $request->description_en;
             $service->description_fr = $request->description_en;
             $service->description_en = $request->description_en;
+            $service->category_id = $category->id;
+            $service->sub_category_id = $category->subCategories()->inRandomOrder()->first()->id;
             $service->save();
 
             return response()->json([
@@ -241,7 +274,21 @@ class BusinessController extends Controller
         try {
 
             $services = Auth::user()->services;
-            return response()->json($services);
+            foreach ($services as $index => $service) {
+                $data['services'][$index] = [
+                    'id' => $service->id,
+                    'name' => $service->name,
+                    'current_price' => floatval($service->current_price),
+                    'keywords' => $service->keywords,
+                    'images' => $service->images,
+                    'description_ar' => $service->description_ar,
+                    'description_fr' => $service->description_fr,
+                    'description_en' => $service->description_en,
+                ];
+            }
+            return response()->json([
+                'services' => $data['services'],
+            ]);
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,

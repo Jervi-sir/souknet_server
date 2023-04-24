@@ -42,7 +42,7 @@ class Company extends Authenticatable
         return $this->belongsTo(CompanyPrivilege::class);
     }
 
-    public function getImages(): HasMany
+    public function images(): HasMany
     {
         return $this->hasMany(CompanyImage::class);
     }

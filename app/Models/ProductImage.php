@@ -12,7 +12,7 @@ class ProductImage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'product_id', 'url', 'meta_keywords'
+        'id', 'product_id', 'url', 'meta_keywords'
     ];
 
     public static function random()

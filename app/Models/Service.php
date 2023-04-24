@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Company;
 use App\Models\CompanyImage;
+use App\Models\ServiceImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,8 @@ class Service extends Model
         'keywords', 'current_price',
     ];
 
+
+
     public static function random()
     {
         return self::inRandomOrder()->first();
@@ -29,9 +32,9 @@ class Service extends Model
         return $this->belongsTo(Company::class);
     }
 
-    public function getImages(): HasMany
+    public function images(): HasMany
     {
-        return $this->hasMany(CompanyImage::class);
+        return $this->hasMany(ServiceImage::class);
     }
 
     public function favoritedByUsers()

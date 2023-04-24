@@ -12,7 +12,7 @@ class ServiceImage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'service_id', 'url', 'meta_keywords',
+        'id', 'service_id', 'url', 'meta_keywords',
     ];
 
     public static function random()

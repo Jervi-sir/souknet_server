@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('services', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained();
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('sub_category_id')->constrained();
 
             $table->tinyText('name');
             $table->longText('description_ar');
