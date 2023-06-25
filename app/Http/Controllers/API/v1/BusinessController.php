@@ -36,7 +36,7 @@ class BusinessController extends Controller
             ]
         );
         try {
-            $category = Category::find(2);
+            $category = Category::find($request->category_id);
             $product = new Product();
             $product->company_id = Auth::user()->id;
             $product->name = $request->name;
@@ -47,7 +47,7 @@ class BusinessController extends Controller
             $product->description_fr = $request->description_fr;
             $product->description_en = $request->description_en;
             $product->category_id = $category->id;
-            $product->sub_category_id = $category->subCategories()->inRandomOrder()->first()->id;
+            //$product->sub_category_id = $category->subCategories()->inRandomOrder()->first()->id;
             $product->save();
 
             $string = preg_replace('/\s+/', '', $request->images);
@@ -152,7 +152,8 @@ class BusinessController extends Controller
         try {
 
             $product = Product::find($id);
-            $product->delete();
+            $product->status = 0;
+            $product->save();
             return response()->json([
                 'message' => 'Product deleted successfully',
             ]);
@@ -187,7 +188,7 @@ class BusinessController extends Controller
 
         try {
 
-            $category = Category::find(1);
+            $category = Category::find($request->category_id);
             $service = new Service();
             $service->company_id = Auth::user()->id;
             $service->name = $request->name;
@@ -197,7 +198,7 @@ class BusinessController extends Controller
             $service->description_fr = $request->description_en;
             $service->description_en = $request->description_en;
             $service->category_id = $category->id;
-            $service->sub_category_id = $category->subCategories()->inRandomOrder()->first()->id;
+            //$service->sub_category_id = $category->subCategories()->inRandomOrder()->first()->id;
             $service->save();
 
             return response()->json([
@@ -257,7 +258,8 @@ class BusinessController extends Controller
         try {
 
             $service = Service::find($id);
-            $service->delete();
+            $service->status = 0;
+            $service->save();
             return response()->json([
                 'message' => 'Service deleted successfully',
             ]);
@@ -301,8 +303,10 @@ class BusinessController extends Controller
     {
         try {
 
-            $product = Auth::user()->products->find($id);
-            $product->status = 0;
+            //$product = Auth::user()->products->find($id);
+            $product = Product::find($id);
+            $product->status = 2;
+            $product->save();
             return response()->json([
                 'message' => 'Product archived successfully'
             ]);
@@ -318,7 +322,7 @@ class BusinessController extends Controller
     {
         try {
 
-            $product = Auth::user()->products->find($id);
+            $product = Product::find($id);
             $product->status = 1;
             return response()->json([
                 'message' => 'Product activated successfully'

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->tinyText('phone_number')->nullable();
             $table->string('social_media_list')->nullable();
             $table->string('bio')->nullable();
-            $table->tinytext('location')->nullable();
+            $table->string('location')->nullable();
             $table->tinyInteger('gender')->nullable();
             $table->date('birthday')->nullable();
             $table->tinyInteger('wilaya_number')->nullable();

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained();
             $table->foreignId('category_id')->constrained();
-            $table->foreignId('sub_category_id')->constrained();
+            $table->foreignId('sub_category_id')->nullable()->constrained();
 
             $table->string('name');
             $table->double('current_price');

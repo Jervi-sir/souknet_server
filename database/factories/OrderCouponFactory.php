@@ -17,8 +17,8 @@ class OrderCouponFactory extends Factory
     public function definition(): array
     {
         return [
-            'order_id' => Order::random()->id,
-            'coupon_id' => Coupon::random()->id,
+            'order_id' => Order::inRandomOrder()->first()->id,
+            'coupon_id' => Coupon::inRandomOrder()->first()->id,
         ];
     }
 }

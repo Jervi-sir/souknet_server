@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Company;
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,9 +18,9 @@ class ProductFactory extends Factory
 
     public function definition(): array
     {
-        $subCategory = SubCategory::inRandomOrder()->first();
+        $category = Category::inRandomOrder()->first();
         return [
-            'company_id' => Company::random()->id,
+            'company_id' => Company::inRandomOrder()->first()->id,
             'name' => $this->faker->name,
             'current_price' => $this->faker->randomFloat(2, 1, 1000),
             'keywords' => implode(', ', $this->faker->words($this->faker->numberBetween(2, 5))),
@@ -27,8 +28,7 @@ class ProductFactory extends Factory
             'description_fr' => $this->faker->text,
             'description_en' => $this->faker->text,
             'status' => $this->faker->randomElement([0, 1]), // 0: archived, 1: active
-            'category_id' => $subCategory->category,
-            'sub_category_id' => $subCategory->id,
+            'category_id' => $category->id,
         ];
     }
 }

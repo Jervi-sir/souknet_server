@@ -81,17 +81,17 @@ class BusinessAuthController extends Controller
             }
 
             $business = Company::create([
-                'name' => $request->company_name,
+                'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'phone_number' => $request->phone_number,
                 'nature_business' => $request->nature_business,
-                'location' => $request->location,
+                'address' => $request->location,
+                'nif' => $request->nif,
                 /*
                 'ceo_name' => $request->ceo_name,
                 'ceo_email' => $request->ceo_email,
                 'activity_sector' => $request->activity_sector,
-                'nif' => $request->nif,
                 'social_media' => $request->social_media, 
                 */
                 'company_privilege_id' => CompanyPrivilege::first()->id,

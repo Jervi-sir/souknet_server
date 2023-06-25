@@ -12,6 +12,7 @@ use App\Models\Company;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\Category;
+use App\Models\Endpoint;
 use App\Models\UserImage;
 use App\Models\CompanyUser;
 use App\Models\OrderCoupon;
@@ -41,37 +42,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory(15)->create();
+        UserImage::factory(15)->create();
 
-        //User::factory(15)->create();
-        //UserImage::factory(15)->create();
+        CompanyPrivilege::factory(5)->create();
+        Company::factory(15)->create();
+        CompanyImage::factory(15)->create();
 
-        //CompanyPrivilege::factory(5)->create();
-        //Company::factory(15)->create();
-        //CompanyImage::factory(15)->create();
-
-        //Category::factory(12)->create();
+        Category::factory(12)->create();
 
         Product::factory(17)->create();
         ProductImage::factory(29)->create();
-        //ProductPriceHistory::factory(15)->create();
-        //ReviewProduct::factory(33)->create();
-        //FavoriteProduct::factory(35)->create();
+        ProductPriceHistory::factory(15)->create();
+        ReviewProduct::factory(33)->create();
+        FavoriteProduct::factory(35)->create();
 
         Service::factory(12)->create();
         ServiceImage::factory(24)->create();
-        //ReviewService::factory(15)->create();
-        //FavoriteService::factory(15)->create();
+        ReviewService::factory(15)->create();
+        FavoriteService::factory(15)->create();
 
-        //PaymentMethod::factory(4)->create();
-        //Order::factory(15)->create();
-        //Transaction::factory(15)->create();
+        PaymentMethod::factory(4)->create();
+        Order::factory(15)->create();
+        Transaction::factory(15)->create();
         //OrderCoupon::factory(5)->create();
 
-        //Booking::factory(15)->create();
-        //Coupon::factory(15)->create();
-        //Notification::factory(15)->create();
+        Booking::factory(15)->create();
+        Coupon::factory(15)->create();
+        Notification::factory(15)->create();
 
-        //CompanyUser::factory(15)->create();
-        //ProductCategory::factory(15)->create();
+        CompanyUser::factory(15)->create();
+        ProductCategory::factory(15)->create();
+
+        //$endpoints = new Endpoint();
+        //$endpoints->run();
     }
 }

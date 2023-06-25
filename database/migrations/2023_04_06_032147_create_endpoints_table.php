@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('endpoints', function (Blueprint $table) {
             $table->id();
+            $table->float('order');
             $table->tinyInteger('is_done')->default(0);
             $table->string('section');
             $table->string('endpoint');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('response')->nullable();
             $table->tinyInteger('requireAuth')->nullable();
+            $table->tinyInteger('api_setup')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
         });

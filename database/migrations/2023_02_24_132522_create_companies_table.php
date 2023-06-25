@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->tinyText('name');
+            $table->string('name');
             $table->tinyText('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
@@ -34,8 +34,6 @@ return new class extends Migration
             $table->tinyInteger('wilaya_number')->nullable();
             $table->tinyInteger('is_verified')->nullable();
             $table->foreignId('company_privilege_id')->constrained();
-
-
 
             $table->timestamps();
         });

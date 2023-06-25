@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Company;
 use App\Models\Service;
+use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,7 +17,7 @@ class ServiceFactory extends Factory
 
     public function definition(): array
     {
-        $subCategory = SubCategory::inRandomOrder()->first();
+        $category = Category::inRandomOrder()->first();
         return [
             'company_id' => Company::random()->id,
             'name' => $this->faker->bs,
@@ -27,8 +28,7 @@ class ServiceFactory extends Factory
             'description_en' => $this->faker->text,
             'duration' => $this->faker->time('H:i'),
             'status' => $this->faker->randomElement([0, 1]), // 0: archived, 1: active
-            'category_id' => $subCategory->category,
-            'sub_category_id' => $subCategory->id,
+            'category_id' => $category->id,
         ];
     }
 }
